@@ -83,4 +83,21 @@ describe('Quotes App', () => {
       cy.contains("It's better to burn out than fade away.").should('not.exist');
     })
   })
+
+  describe('Editing an existing quote', () => {
+    it('can edit a quote', () => {
+      textInput().type("Lorem ipsum");
+      authorInput().type("CRHarding");
+      submitBtn().click();
+      cy.contains("Lorem ipsum").siblings('button:nth-of-type(1)').click();
+      textInput().should('have.value', 'Lorem ipsum');
+      authorInput().should('have.value', 'CRHarding');
+      textInput().type(' dolor');
+      authorInput().type(' Blah');
+      submitBtn().click();
+      cy.contains('Lorem ipsum dolor (CRHarding Blah)');
+      cy.contains('Lorem ipsum dolor (CRHarding Blah)').next().next().click();
+      cy.contains('Lorem ipsum dolor (CRHarding Blah)').should('not.exist');
+    })
+  })
 })
