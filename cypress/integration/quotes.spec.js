@@ -33,5 +33,40 @@ describe('Quotes App', () => {
     cy.contains(/submit quote/i).should('exist');
   })
 
+  describe('Filling out the inputs and cancelling', () => {
+    it('can navigate to the site', () => {
+      cy.url().should('include', 'localhost');
+    })
 
+    it('submit button starts out disabled', () => {
+      submitBtn().should('be.disabled');
+    })
+
+    it('can type in the inputs', () => {
+      textInput()
+        .should('have.value', '')
+        .type('Who likes CSS anyways?')
+        .should('have.value', 'Who likes CSS anyways?')
+
+      authorInput()
+        .should('have.value', '')
+        .type('CRHarding')
+        .should('have.value', 'CRHarding')
+    })
+
+    it('the submit button enables when both inputs are filled out', () => {
+      textInput().type('I LOVE CSS');
+      authorInput().type('Said no one ever');
+      submitBtn().should('not.be.disabled');
+    })
+
+    it('the cancel button can reset the inputs and disable the submit button', () => {
+      textInput().type('Lorem ipsum');
+      authorInput().type('Dolor Sit');
+      cancelBtn().click();
+      textInput().should('have.value', '');
+      authorInput().should('have.value', '');
+      submitBtn().should('be.disabled');
+    })
+  })
 })
