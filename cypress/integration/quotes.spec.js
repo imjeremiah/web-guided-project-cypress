@@ -82,6 +82,16 @@ describe('Quotes App', () => {
       cy.contains("It's better to burn out than fade away.").next().next().click();
       cy.contains("It's better to burn out than fade away.").should('not.exist');
     })
+
+    it('variation of can submit a new quote', () => {
+      cy.contains(/have fun/).should('not.exist');
+      textInput().type('have fun');
+      authorInput().type('Case of Base');
+      submitBtn().click();
+      cy.contains(/have fun/).should('exist');
+      cy.contains(/have fun/).next().next().click();
+      cy.contains(/have fun/).should('not.exist');
+    })
   })
 
   describe('Editing an existing quote', () => {
