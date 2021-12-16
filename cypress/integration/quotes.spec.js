@@ -69,4 +69,18 @@ describe('Quotes App', () => {
       submitBtn().should('be.disabled');
     })
   })
+
+  describe('Adding a new quote', () => {
+    it('can submit and delete a new quote', () => {
+      textInput().type("It's better to burn out than fade away.");
+      authorInput().type("Neil Young");
+      submitBtn().click();
+
+      // It's important that state be the same at the beginning of each test!
+      // Which is why we need to delete our newly created quote
+      // ASAP
+      cy.contains("It's better to burn out than fade away.").next().next().click();
+      cy.contains("It's better to burn out than fade away.").should('not.exist');
+    })
+  })
 })
